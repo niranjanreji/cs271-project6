@@ -6,5 +6,14 @@ using namespace std;
 
 template <class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-    
+    V = new vertex*[keys.size()]
+    for (int i = 0; i < keys.size(); i++) {
+        int adja = edges[i].size();
+        K* arr = new K[adja];
+        for (int j = 0; i < adja; j++) {
+            arr[j] = edges[i][j];
+        }
+        vertex* curr = new vertex(data[i], keys[i], arr);
+        V[i] = curr;
+    }
 }

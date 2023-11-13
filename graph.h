@@ -14,6 +14,14 @@ class Graph {
                 K* adj;
                 vertex* pi;
                 int d; 
+            public:
+                vertex(D da, K ke, K* ad) {
+                    data = da;
+                    key = ke;
+                    adj = ad;
+                    pi = nullptr;
+                    d = -1;
+                }
         };
         vertex** V;
     public:
