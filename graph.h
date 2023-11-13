@@ -8,13 +8,12 @@ template <class D, class K>
 class Graph {
     private:
         class vertex {
-            private:
+            public:
                 D data;
                 K key;
                 K* adj;
                 vertex* pi;
                 int d; 
-            public:
                 vertex(D da, K ke, K* ad) {
                     data = da;
                     key = ke;
@@ -24,8 +23,9 @@ class Graph {
                 }
         };
         vertex** V;
+        K* keys;
     public:
-        Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges);
+        Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);
         vertex* get(K key);
         bool reachable(K start, K end);
         void bfs(K start);

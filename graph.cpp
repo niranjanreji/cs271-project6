@@ -5,15 +5,25 @@
 using namespace std;
 
 template <class D, class K>
-Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-    V = new vertex*[keys.size()]
-    for (int i = 0; i < keys.size(); i++) {
+Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
+    int ksize = key.size();
+    V = new vertex*[ksize];
+    keys = new K[ksize];
+    for (int i = 0; i < ksize; i++) {
         int adja = edges[i].size();
         K* arr = new K[adja];
         for (int j = 0; i < adja; j++) {
             arr[j] = edges[i][j];
         }
-        vertex* curr = new vertex(data[i], keys[i], arr);
+        vertex* curr = new vertex(data[i], key[i], arr);
         V[i] = curr;
+        keys[i] = key[i]
+    }
+}
+
+template <class D, class K>
+Graph<D, K>::vertex* Graph<D, K>::get(K key) {
+    for (int i = 0; i < keys.length(); i++) {
+        
     }
 }
