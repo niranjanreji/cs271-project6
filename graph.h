@@ -19,11 +19,10 @@ class Graph {
                 bool color;
                 vertex(D da, K ke, K* ad) {
                     data = da;
-                    tree = "";
                     key = ke;
                     adj = ad;
                     pi = nullptr;
-                    d = -1;
+                    distance = -1;
                     color = true;
                 }
         };

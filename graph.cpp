@@ -22,12 +22,12 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
         }
         vertex* curr = new vertex(data[i], key[i], adj);
         V[i] = curr;
-        keys[i] = key[i]
+        keys[i] = key[i];
     }
 }
 
 template <class D, class K>
-Graph<D, K>::vertex* Graph<D, K>::get(K key) {
+typename Graph<D, K>::vertex* Graph<D, K>::get(K key) {
     for (int i = 0; i < keys.length(); i++) {
         if (keys[i] == key) return V[i];
     }
@@ -56,7 +56,7 @@ void Graph<D, K>::bfs(K start, bool print) {
         curr.enqueue(ptr);
         int level = 0;
         stringstream out;
-        while (!processing.empty()) {
+        while (!curr.empty()) {
             vertex* z = curr.dequeue();
             if (print) {
                 if (level == 0) {
@@ -69,13 +69,14 @@ void Graph<D, K>::bfs(K start, bool print) {
                 else {
                     out << " " << z->key;
                 }
-            }  
-            for (int i = 0; i < z->adjSize, i++) {
-                if (adj[i]->color) {
-                    adj[i]->color = false;
-                    adj[i]->distance = z.distance + 1;
-                    adj[i]->pi = z;
-                    curr.enqueue(adj[i]);
+            }
+            K* adjList = z->adj;  
+            for (int i = 0; i < z->adjSize; i++) {
+                if (adjList[i]->color) {
+                    adjList[i]->color = false;
+                    adjList[i]->distance = z.distance + 1;
+                    adjList[i]->pi = z;
+                    curr.enqueue(adjList[i]);
                 }
             }
         }
@@ -103,7 +104,7 @@ void Graph<D, K>::print_path(K start, K end) {
 
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end) {
-
+    return "";
 }
 
 template <class D, class K>

@@ -23,7 +23,7 @@ void queue<T>::enqueue(T x) {
         q[tail] = x;
         tail++;
     }
-    if (tail > n) tail = 1;
+    if (tail > size) tail = 1;
 }
 
 template <class T>
