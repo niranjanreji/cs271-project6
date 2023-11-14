@@ -14,17 +14,21 @@ class Graph {
                 K* adj;
                 vertex* pi;
                 int d;
-                bool color; 
+                int adjSize;
+                bool color;
                 vertex(D da, K ke, K* ad) {
                     data = da;
+                    tree = "";
                     key = ke;
                     adj = ad;
                     pi = nullptr;
                     d = -1;
+                    color = true;
                 }
         };
         vertex** V;
         K* keys;
+        int vertices;
     public:
         Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);
         vertex* get(K key);
