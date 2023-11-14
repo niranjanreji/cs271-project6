@@ -4,7 +4,7 @@
 #include <sstream>
 #include <vector>
 #include "graph.h"
-#include "queue.h"
+#include "queue.cpp"
 
 using namespace std;
 
@@ -46,20 +46,23 @@ void Graph<D, K>::bfs(K start, bool print) {
     for (int i = 0; i < vertices; i++) {
         V[i]->color = false;
         V[i]->pi = nullptr;
-        V[i]->d = -1;
+        V[i]->distance = -1;
     }
     queue<vertex*> curr(vertices);
     vertex* ptr = get(start);
     if (ptr != nullptr) {
         ptr->color = false;
-        ptr->d = 0;
+        ptr->distance = 0;
         curr.enqueue(ptr);
         int level = 0;
         stringstream out;
         while (!processing.empty()) {
             vertex* z = curr.dequeue();
             if (print) {
-                if (level + 1 == z->d) {
+                if (level == 0) {
+                    out << z->key;
+                }
+                else if (level + 1 == z->distance) {
                     level++;
                     out << endl << z->key;
                 }
@@ -70,7 +73,7 @@ void Graph<D, K>::bfs(K start, bool print) {
             for (int i = 0; i < z->adjSize, i++) {
                 if (adj[i]->color) {
                     adj[i]->color = false;
-                    adj[i]->d = z.d + 1;
+                    adj[i]->distance = z.distance + 1;
                     adj[i]->pi = z;
                     curr.enqueue(adj[i]);
                 }

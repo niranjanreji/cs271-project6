@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <string>
 
@@ -13,7 +14,7 @@ class Graph {
                 K key;
                 K* adj;
                 vertex* pi;
-                int d;
+                int distance;
                 int adjSize;
                 bool color;
                 vertex(D da, K ke, K* ad) {
