@@ -20,15 +20,25 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
         for (int j = 0; i < adjSize; j++) {
             adj[j] = edges[i][j];
         }
-        vertex* curr = new vertex(data[i], key[i], adj);
+        vertex* curr = new vertex(data[i], key[i], adj, adjSize);
+        curr->adjPtr = new vertex*[adjSize];
         V[i] = curr;
         keys[i] = key[i];
+    }
+
+    for (int i = 0; i < vertices; i++) {
+        vertex* curr = V[i];
+        vertex** adjPtrs = curr->adjPtr;
+        K* adj = curr->adj;
+        for (int j = 0; j < curr->adjSize; j++) {
+            adjPtrs[j] = get(adj[j]) 
+        }
     }
 }
 
 template <class D, class K>
 typename Graph<D, K>::vertex* Graph<D, K>::get(K key) {
-    for (int i = 0; i < keys.length(); i++) {
+    for (int i = 0; i < vertices; i++) {
         if (keys[i] == key) return V[i];
     }
     return nullptr;
@@ -70,11 +80,11 @@ void Graph<D, K>::bfs(K start, bool print) {
                     out << " " << z->key;
                 }
             }
-            K* adjList = z->adj;  
+            vertex** adjList = z->adjPtr;  
             for (int i = 0; i < z->adjSize; i++) {
                 if (adjList[i]->color) {
                     adjList[i]->color = false;
-                    adjList[i]->distance = z.distance + 1;
+                    adjList[i]->distance = z->distance + 1;
                     adjList[i]->pi = z;
                     curr.enqueue(adjList[i]);
                 }

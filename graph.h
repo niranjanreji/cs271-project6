@@ -13,14 +13,16 @@ class Graph {
                 D data;
                 K key;
                 K* adj;
+                vertex** adjPtr;
                 vertex* pi;
                 int distance;
                 int adjSize;
                 bool color;
-                vertex(D da, K ke, K* ad) {
+                vertex(D da, K ke, K* ad, int size) {
                     data = da;
                     key = ke;
                     adj = ad;
+                    adjSize = size;
                     pi = nullptr;
                     distance = -1;
                     color = true;
