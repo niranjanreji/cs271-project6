@@ -31,7 +31,7 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
         vertex** adjPtrs = curr->adjPtr;
         K* adj = curr->adj;
         for (int j = 0; j < curr->adjSize; j++) {
-            adjPtrs[j] = get(adj[j]) 
+            adjPtrs[j] = get(adj[j]); 
         }
     }
 }

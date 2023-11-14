@@ -34,4 +34,5 @@ T queue<T>::dequeue() {
         if (head > size) head = 1;
         return temp;
     }
+    return T();
 }
