@@ -33,7 +33,7 @@ class Graph {
         Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);
         vertex* get(K key);
         bool reachable(K start, K end);
-        void bfs(K start);
+        void bfs(K start, bool print = false);
         void print_path(K start, K end);
         string edge_class(K start, K end);
         void bfs_tree(K start);

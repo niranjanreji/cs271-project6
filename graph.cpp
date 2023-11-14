@@ -42,7 +42,7 @@ bool Graph<D, K>::reachable(K start, K end) {
 }
 
 template <class D, class K>
-void Graph<D, K>::bfs(K start) {
+void Graph<D, K>::bfs(K start, bool print) {
     for (int i = 0; i < vertices; i++) {
         V[i]->color = false;
         V[i]->pi = nullptr;
@@ -54,8 +54,19 @@ void Graph<D, K>::bfs(K start) {
         ptr->color = false;
         ptr->d = 0;
         curr.enqueue(ptr);
+        int level = 0;
+        stringstream out;
         while (!processing.empty()) {
-            vertex* z = curr.dequeue(); 
+            vertex* z = curr.dequeue();
+            if (print) {
+                if (level + 1 == z->d) {
+                    level++;
+                    out << endl << z->key;
+                }
+                else {
+                    out << " " << z->key;
+                }
+            }  
             for (int i = 0; i < z->adjSize, i++) {
                 if (adj[i]->color) {
                     adj[i]->color = false;
@@ -64,6 +75,9 @@ void Graph<D, K>::bfs(K start) {
                     curr.enqueue(adj[i]);
                 }
             }
+        }
+        if (print) {
+            cout << out.str() << endl;
         }
     }
 }
@@ -91,4 +105,5 @@ string Graph<D, K>::edge_class(K start, K end) {
 
 template <class D, class K>
 void Graph<D, K>::bfs_tree(K start) {
+    bfs(start, true);
 }
