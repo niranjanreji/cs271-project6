@@ -9,10 +9,11 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
     int ksize = key.size();
     V = new vertex*[ksize];
     keys = new K[ksize];
+
     for (int i = 0; i < ksize; i++) {
-        int adja = edges[i].size();
-        K* arr = new K[adja];
-        for (int j = 0; i < adja; j++) {
+        int adj = edges[i].size();
+        K* arr = new K[adj];
+        for (int j = 0; i < adj; j++) {
             arr[j] = edges[i][j];
         }
         vertex* curr = new vertex(data[i], key[i], arr);
@@ -31,5 +32,7 @@ Graph<D, K>::vertex* Graph<D, K>::get(K key) {
 
 template <class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
-    
+    bfs(start);
+    if (get(end) -> pi != nullptr) return true;
+    return false;
 } 
