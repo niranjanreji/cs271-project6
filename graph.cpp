@@ -24,6 +24,12 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
 template <class D, class K>
 Graph<D, K>::vertex* Graph<D, K>::get(K key) {
     for (int i = 0; i < keys.length(); i++) {
-        
+        if (keys[i] == key) return V[i];
     }
+    return nullptr;
 }
+
+template <class D, class K>
+bool Graph<D, K>::reachable(K start, K end) {
+    
+} 

@@ -13,7 +13,8 @@ class Graph {
                 K key;
                 K* adj;
                 vertex* pi;
-                int d; 
+                int d;
+                bool color; 
                 vertex(D da, K ke, K* ad) {
                     data = da;
                     key = ke;
