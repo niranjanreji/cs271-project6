@@ -8,35 +8,26 @@ using namespace std;
 template <class D, class K>
 class Graph {
     private:
-        class vertex {
-            public:
-                D data;
-                K key;
-                K* adj;
-                vertex** adjPtr;
-                vertex* pi;
-                int distance;
-                int adjSize;
-                bool color;
-                vertex(D da, K ke, K* ad, int size) {
-                    data = da;
-                    key = ke;
-                    adj = ad;
-                    adjSize = size;
-                    pi = nullptr;
-                    distance = -1;
-                    color = true;
-                }
+        struct vertex {
+            D data;
+            K key;
+            vertex* pi;
+            vertex** adj;
+            bool color;
+            int distance;
+            int adjsize;
         };
+
         vertex** V;
         K* keys;
         int vertices;
+
     public:
-        Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);
-        vertex* get(K key);
-        bool reachable(K start, K end);
-        void bfs(K start, bool print = false);
-        void print_path(K start, K end);
-        string edge_class(K start, K end);
-        void bfs_tree(K start);
+        Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);          //constructs a graph using key, data, edges vectors
+        vertex* get(K key);                                                     //returns pointer to vertex with passed key
+        bool reachable(K start, K end);                                         //returns if end is reachable from start
+        void bfs(K start);                                                      //sets bfs attributes throughout graph
+        void print_path(K start, K end);                                        //prints simple path from start to end
+        string edge_class(K start, K end);                                      //returns edge class
+        void bfs_tree(K start);                                                 //prints bfs tree
 };
