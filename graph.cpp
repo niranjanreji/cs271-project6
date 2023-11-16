@@ -34,7 +34,7 @@ template <class D, class K>
 Graph<D, K>::~Graph() {
     for (int i = 0; i < size; i++) {
         delete V[i];
-        delete keys[i];
+        delete[] keys;
     }
 }
 
@@ -70,20 +70,20 @@ void Graph<D, K>::bfs(K start) {
         tree << root->key;
         root->distance = 0;
         root->color = false;
-        queue<vector*> curr = new queue<vector*>[size];
-        curr.enqueue(root);
-        while (!curr.empty()) {
-            vector* now = curr.dequeue();
+        queue<vertex*> q(size);
+        q.enqueue(root);
+        while (!q.empty()) {
+            vertex* now = q.dequeue();
 
-            if (curr->distance = level + 1) {
-                tree << endl << curr->key;
+            if (now->distance = level + 1) {
+                tree << endl << now->key;
                 level++;
             }
             else if (root != now) {
-                tree << " " << curr->key;
+                tree << " " << now->key;
             }
 
-            vector** adjs = curr->adj;
+            vertex** adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++) {
                 if (adjs[i]->color) {
                     adjs[i]->color = false;
@@ -99,7 +99,7 @@ template <class D, class K>
 void Graph<D, K>::print_path(K start, K end, bool first) {
     if (first) bfs(start);
     if (start == end) cout << start;
-    else if (end->pi != nullptr) {
+    else if (get(end)->pi != nullptr) {
         print_path(start, get(end)->pi->key, false);
         cout << " -> " << end;
     }
@@ -107,6 +107,7 @@ void Graph<D, K>::print_path(K start, K end, bool first) {
 
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end) {
+    return "";
 }
 
 template <class D, class K>
