@@ -66,12 +66,23 @@ void Graph<D, K>::bfs(K start) {
     }
     vertex* root = get(start);
     if (root != nullptr) {
+        int level = 0;
+        tree << root->key;
         root->distance = 0;
         root->color = false;
         queue<vector*> curr = new queue<vector*>[size];
         curr.enqueue(root);
         while (!curr.empty()) {
             vector* now = curr.dequeue();
+
+            if (curr->distance = level + 1) {
+                tree << endl << curr->key;
+                level++;
+            }
+            else if (root != now) {
+                tree << " " << curr->key;
+            }
+
             vector** adjs = curr->adj;
             for (int i = 0; i < now->adjSize; i++) {
                 if (adjs[i]->color) {
@@ -100,4 +111,6 @@ string Graph<D, K>::edge_class(K start, K end) {
 
 template <class D, class K>
 void Graph<D, K>::bfs_tree(K start) {
+    bfs(start);
+    cout << tree.str() << endl;
 }

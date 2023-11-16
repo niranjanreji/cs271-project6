@@ -21,7 +21,8 @@ class Graph {
             ~vertex() {
                 delete[] adj;
             }
-        };
+        }; 
+        stringstream tree;
         vertex** V;
         K* keys;                                                                //to speed up get() and avoid pointer operations
         int size;
