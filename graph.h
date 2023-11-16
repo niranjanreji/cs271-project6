@@ -18,6 +18,9 @@ class Graph {
             int adjSize;
 
             vertex(D d, K k, int ad): data(d), key(k), adjSize(ad) {}
+            ~vertex() {
+                delete[] adj;
+            }
         };
         vertex** V;
         K* keys;

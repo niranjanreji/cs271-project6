@@ -31,7 +31,8 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
 
 template <class D, class K>
 Graph<D, K>::~Graph() {
-    
+    delete[] V;
+    delete[] keys;
 }
 
 template <class D, class K>
