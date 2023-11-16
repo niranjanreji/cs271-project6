@@ -12,7 +12,6 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
     V = new vertex*[size];
     keys = new K[size];
 
-    cout << "here with " << size << endl;
     for (int i = 0; i < size; i++) {
         K currKey = key[i];
         D currData = data[i];
@@ -80,9 +79,9 @@ void Graph<D, K>::bfs(K start) {
 
             if (now->distance = level + 1) {
                 tree << endl << now->key;
-                level++;
+                level = level + 1;
             }
-            else if (root != now) {
+            else if (root != now && now->distance == level) {
                 tree << " " << now->key;
             }
 
