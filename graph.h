@@ -23,7 +23,7 @@ class Graph {
             }
         };
         vertex** V;
-        K* keys;
+        K* keys;                                                                //to speed up get() and avoid pointer operations
         int size;
     public:
         ~Graph(); 
@@ -31,7 +31,7 @@ class Graph {
         vertex* get(K key);                                                     //returns pointer to vertex with passed key
         bool reachable(K start, K end);                                         //returns if end is reachable from start
         void bfs(K start);                                                      //sets bfs attributes throughout graph
-        void print_path(K start, K end);                                        //prints simple path from start to end
+        void print_path(K start, K end, bool first = true);                     //prints simple path from start to end
         string edge_class(K start, K end);                                      //returns edge class
         void bfs_tree(K start);                                                 //prints bfs tree
 };

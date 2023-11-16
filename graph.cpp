@@ -16,6 +16,7 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
         int adjSize = edges[i].size();
         vertex* curr = new vertex(currKey, currData, adjSize);
         V[i] = curr;
+        keys[i] = curr->key;
     }
 
     for (int i = 0; i < size; i++) {
@@ -31,24 +32,66 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
 
 template <class D, class K>
 Graph<D, K>::~Graph() {
-    delete[] V;
-    delete[] keys;
+    for (int i = 0; i < size; i++) {
+        delete V[i];
+        delete keys[i];
+    }
 }
 
 template <class D, class K>
 typename Graph<D, K>::vertex* Graph<D, K>::get(K key) {
+    for (int i = 0; i < size; i++) {
+        if (keys[i] == key) return V[i];
+    }
+    return nullptr;
 }
 
 template <class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
+    if (start == end) return true;
+    bfs(start);
+    vertex* temp = get(end);
+    if (temp != nullptr) {
+        return (temp->pi != nullptr);
+    }
+    return false;
 }
 
 template <class D, class K>
 void Graph<D, K>::bfs(K start) {
+    for (int i = 0; i < size; i++) {
+        V[i]->color = true;
+        V[i]->distance = -1;
+        V[i]->pi = nullptr;
+    }
+    vertex* root = get(start);
+    if (root != nullptr) {
+        root->distance = 0;
+        root->color = false;
+        queue<vector*> curr = new queue<vector*>[size];
+        curr.enqueue(root);
+        while (!curr.empty()) {
+            vector* now = curr.dequeue();
+            vector** adjs = curr->adj;
+            for (int i = 0; i < now->adjSize; i++) {
+                if (adjs[i]->color) {
+                    adjs[i]->color = false;
+                    adjs[i]->distance = now->distance + 1;
+                    adjs[i]->pi = now;
+                }
+            }
+        }
+    }
 }
 
 template <class D, class K>
-void Graph<D, K>::print_path(K start, K end) {
+void Graph<D, K>::print_path(K start, K end, bool first) {
+    if (first) bfs(start);
+    if (start == end) cout << start;
+    else if (end->pi != nullptr) {
+        print_path(start, get(end)->pi->key, false);
+        cout << " -> " << end;
+    }
 }
 
 template <class D, class K>
