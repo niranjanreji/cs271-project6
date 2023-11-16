@@ -9,16 +9,17 @@ using namespace std;
 template <class D, class K>
 Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
     size = key.size();
+    V = new vertex*[size];
+    keys = new K[size];
 
-    std::cout << std::endl;
+    cout << "here with " << size << endl;
     for (int i = 0; i < size; i++) {
         K currKey = key[i];
         D currData = data[i];
         int adjSize = edges[i].size();
-        vertex* curr = new vertex(currKey, currData, adjSize);
+        vertex* curr = new vertex(currData, currKey, adjSize);
         V[i] = curr;
         keys[i] = curr->key;
-        cout << V[i] << " and " << keys[i] << " lol " << endl;
     }
 
     for (int i = 0; i < size; i++) {

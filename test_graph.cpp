@@ -8,36 +8,42 @@
 #include <fstream>
 #include <sstream>
 #include "graph.cpp"
-
+/*
 Graph<string, string>* generate_graph(string fname){
     string line;
     ifstream infile(fname);
     vector<string> keys = {};
     vector<string> data = {};
     vector<vector<string>> adjs = {};
+    cout << "starting" << endl;
     if(infile.is_open()){
         while(getline(infile, line)){
             unsigned long delim = line.find(":");
             string key = line.substr(0, delim);
             string adj = line.substr(delim+1);
-            
+            cout << line << endl;
             keys.push_back(key);
             data.push_back(key + " data");
             delim = adj.find(",");
+            cout << delim << endl;
             vector<string> adj_lst = {};
+            cout << line << endl;
             while(delim != string::npos){
+                //cout << delim << " and " << adj << endl;
                 adj_lst.push_back(adj.substr(0, delim));
                 adj = adj.substr(delim+1);
                 delim = adj.find(",");
             }
+            cout << line << endl;
             adj_lst.push_back(adj);
             adjs.push_back(adj_lst);
         }
+    cout << "made it out the hood" << endl;
     }
     Graph<string,string>* G = new Graph<string, string>(keys, data, adjs);
     return G;
 }
-
+*/
 void test_get(Graph<string,string>* G) {
     try {
         if(G->get("S")==nullptr || G->get("S")->data != "S data") {
@@ -141,12 +147,20 @@ void test_bfs_tree(Graph<string,string>* G) {
 
 int main() {
 
-    Graph<string,string>* G = generate_graph("graph_description.txt");
+    cout << "0" << endl;
+    //Graph<string,string>* G = generate_graph("graph_description.txt");
+    Graph<string, string>* G = new Graph<string, string>({"R","V","S","T","U","W","X","Y"}, {"R data","V data","S data","T data","U data","W data","X data","Y data"}, {{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}});
+    cout << "1" << endl;
     test_get(G);
+    cout << "2" << endl;
     test_reachable(G);
+    cout << "3" << endl;
     test_bfs(G);
+    cout << "4" << endl;
     test_print_path(G);
+    cout << "5" << endl;
     test_edge_class(G);
+    cout << "6" << endl;
     test_bfs_tree(G);
 
     cout << "Testing completed" << endl;
