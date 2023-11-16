@@ -8,6 +8,30 @@ using namespace std;
 
 template <class D, class K>
 Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges) {
+    size = key.size();
+    
+    for (int i = 0; i < size; i++) {
+        K currKey = key[i];
+        D currData = data[i];
+        int adjSize = edges[i].size();
+        vertex* curr = new vertex(currKey, currData, adjSize);
+        V[i] = curr;
+    }
+
+    for (int i = 0; i < size; i++) {
+        vertex* curr = V[i];
+        int adjSize = curr->adjSize;
+        vertex** adjacent = new vertex*[adjSize];
+        for (int j = 0; j < adjSize; j++) {
+            adjacent[j] = get(edges[i][j]);
+        }
+        curr->adj = adjacent;
+    }
+}
+
+template <class D, class K>
+Graph<D, K>::~Graph() {
+    
 }
 
 template <class D, class K>

@@ -15,16 +15,15 @@ class Graph {
             vertex** adj;
             bool color;
             int distance;
-            int adjsize;
+            int adjSize;
 
-            vertex(D d, K k): data(d), key(k) {}
+            vertex(D d, K k, int ad): data(d), key(k), adjSize(ad) {}
         };
-
         vertex** V;
         K* keys;
-        int vertices;
-
+        int size;
     public:
+        ~Graph(); 
         Graph(vector<K> key, vector<D> data, vector<vector<K>> edges);          //constructs a graph using key, data, edges vectors
         vertex* get(K key);                                                     //returns pointer to vertex with passed key
         bool reachable(K start, K end);                                         //returns if end is reachable from start
