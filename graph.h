@@ -16,6 +16,8 @@ class Graph {
             bool color;
             int distance;
             int adjsize;
+
+            vertex(D d, K k): data(d), key(k) {}
         };
 
         vertex** V;
