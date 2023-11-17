@@ -84,6 +84,18 @@ bool Graph<D, K>::reachable(K start, K end)
     return false;
 }
 
+template <class D, class K>
+bool Graph<D, K>::reachable(vertex* start, vertex* end) {
+    if (start == nullptr || end == nullptr) return false;
+    if (start == end) return true;
+    vertex* curr = end;
+    while (curr->pi != nullptr) {
+        curr = curr->pi;
+        if (curr == start) return true;
+    }
+    return false;
+}
+
 // PreCondtions: The graph object must be instantiated.
 // PostConditions: BFS traversal is done from start vertex
 // BFS tree is stored in tree stream.
@@ -162,15 +174,25 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
+<<<<<<< Updated upstream
     vertex *endVertex = get(end);
     vertex *startVertex = get(start);
     if (startVertex == nullptr || endVertex == nullptr)
     {
         return "no edge";
     }
+=======
+    // Perform DFS
+    dfs();
+>>>>>>> Stashed changes
 
-    bfs(start); // Run BFS from the start vertex
+    // Retrieve vertices based on keys
+    vertex* u = get(start);
+    vertex* v = get(end);
+    cout << "start is " << u->key << " and end is " << v->key << endl;
+    cout << "end is at d " << v->distance << ", start is at d " << u->distance << endl;
 
+<<<<<<< Updated upstream
     if (endVertex->distance > startVertex->distance)
     {
         return "forward edge";
@@ -191,6 +213,14 @@ string Graph<D, K>::edge_class(K start, K end)
     {
         return "cross edge";
     }
+=======
+    if (u == nullptr || v == nullptr) return "no edge";
+    if (v->pi == u) return "tree edge";
+    if (reachable(u, v)) return "forward edge";
+    if (reachable(v, u)) return "back edge";
+    if (!reachable(v, u) && reachable(u, v)) return "cross edge";
+    return "no edge";
+>>>>>>> Stashed changes
 }
 
 // PreConditions: Graph obj is insstantiated.
@@ -200,4 +230,32 @@ void Graph<D, K>::bfs_tree(K start)
 {
     bfs(start);
     cout << tree.str();
+}
+
+template <class D, class K>
+void Graph<D, K>::dfs() {
+    for (int i = 0; i < size; i++) {
+        V[i]->color = true;
+        V[i]->pi = nullptr;
+    }
+    int time = 0;
+    for (int i = 0; i < size; i++) {
+        if (V[i]->color) dfs_visit(V[i], time);
+    }
+}
+
+template <class D, class K>
+void Graph<D, K>::dfs_visit(vertex* node, int time) {
+    time = time + 1;
+    node->distance = time;
+    node->color = false;
+    vertex** adjs = node->adj;
+    for (int i = 0; i < node->adjSize; i++) {
+        if (adjs[i]->color) {
+            adjs[i]->pi = node;
+            dfs_visit(adjs[i], time);
+        }
+    }
+    time = time + 1;
+    node->finish = time;
 }
