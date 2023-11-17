@@ -140,19 +140,12 @@ void test_bfs_tree(Graph<string,string>* G) {
 
 int main() {
 
-    cout << "0" << endl;
     Graph<string,string>* G = generate_graph("graph_description.txt");
-    cout << "1" << endl;
     test_get(G);
-    cout << "2" << endl;
     test_reachable(G);
-    cout << "3" << endl;
     test_bfs(G);
-    cout << "4" << endl;
     test_print_path(G);
-    cout << "5" << endl;
     test_edge_class(G);
-    cout << "6" << endl;
     test_bfs_tree(G);
 
     cout << "Testing completed" << endl;

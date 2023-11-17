@@ -84,7 +84,7 @@ void Graph<D, K>::bfs(K start)
     if (root != nullptr)
     {
         int level = 0;
-        cout << "our tree string is first " << tree.str() << endl;
+        tree.str("");
         root->distance = 0;
         root->color = false;
         queue<vertex *> q(size);
@@ -92,26 +92,6 @@ void Graph<D, K>::bfs(K start)
         while (!q.empty())
         {
             vertex *now = q.dequeue();
-            
-            if (now->distance == level + 1)
-            {
-                tree << endl
-                     << now->key;
-                level = level + 1;
-                //cout << "level is now " << level << endl;
-            }
-            else if (now->distance == level)
-            {
-                if (root == now) {
-                    tree << now->key;
-                }
-                else {
-                    //tree << " " << now->key;
-                }
-                
-            }
-            cout << now->key << " at level " << level << " with distance " << now->distance << endl; 
-            //cout << "we are at " << now->key << " and tree became " << tree.str() << endl;
             vertex **adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++)
             {
@@ -122,6 +102,22 @@ void Graph<D, K>::bfs(K start)
                     adjs[i]->pi = now;
                     q.enqueue(adjs[i]);
                 }
+            }
+
+            if (now->distance == level + 1)
+            {
+                tree << endl << now->key;
+                level = level + 1;
+            }
+            else if (now->distance == level)
+            {
+                if (root == now) {
+                    tree << now->key;
+                }
+                else {
+                    tree << " " << now->key;
+                }
+                
             }
         }
     }
@@ -176,5 +172,5 @@ template <class D, class K>
 void Graph<D, K>::bfs_tree(K start)
 {
     bfs(start);
-    cout << tree.str() << endl;
+    cout << tree.str();
 }
