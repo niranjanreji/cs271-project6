@@ -18,7 +18,6 @@ private:
         bool color;
         int distance;
         int adjSize;
-        int finish;
 
         vertex(D d, K k, int ad) : data(d), key(k), adjSize(ad) {}
         ~vertex()
@@ -36,11 +35,8 @@ public:
     Graph(vector<K> key, vector<D> data, vector<vector<K>> edges); // constructs a graph using key, data, edges vectors
     vertex *get(K key);                                            // returns pointer to vertex with passed key
     bool reachable(K start, K end);                                // returns if end is reachable from start
-    bool reachable(vertex* start, vertex* end);
     void bfs(K start);                                             // sets bfs attributes throughout graph
     void print_path(K start, K end, bool first = true);            // prints simple path from start to end
     string edge_class(K start, K end);                             // returns edge class
     void bfs_tree(K start);                                        // prints bfs tree
-    void dfs();
-    void dfs_visit(vertex* node, int time);
 };
