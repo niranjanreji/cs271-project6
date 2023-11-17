@@ -179,6 +179,85 @@ void test_bfs_tree(Graph<string, string> *G)
     }
 }
 
+void test_disconnected_graph(Graph<string, string> *G)
+{
+    // Reachability in a Disconnected Graph
+    if (G->reachable("A", "E"))
+    {
+        cout << "Error: Vertex \"E\" should not be reachable from \"A\" in a disconnected graph." << endl;
+    }
+
+    // BFS on a Disconnected Graph
+    G->bfs("A");
+    if (G->get("E") != nullptr && G->get("E")->distance != -1)
+    {
+        cout << "Error: Vertex \"E\" should have a distance of -1 from \"A\" in a disconnected graph." << endl;
+    }
+
+    // Edge Classification in a Disconnected Graph
+    if (G->edge_class("A", "E") != "no edge")
+    {
+        cout << "Error: Edge classification between \"A\" and \"E\" should be \"no edge\" in a disconnected graph." << endl;
+    }
+}
+
+void test_graph_with_self_loops(Graph<string, string> *G)
+{
+    // Reachability with Self-loops
+    if (!G->reachable("M", "M"))
+    {
+        cout << "Error: Vertex \"M\" should be reachable from itself." << endl;
+    }
+
+    // BFS with Self-loops
+    G->bfs("M");
+    if (G->get("M") != nullptr && G->get("M")->distance != 0)
+    {
+        cout << "Error: BFS should handle self-loops correctly." << endl;
+    }
+
+    // Edge Classification with Self-loops
+    string edgeType = G->edge_class("P", "P");
+    if (edgeType != "forward edge" && edgeType != "self-loop")
+    { // Depending on how you handle self-loops
+        cout << "Error: Self-loop on \"P\" should be classified correctly." << endl;
+    }
+}
+
+void test_graph_with_parallel_edges(Graph<string, string> *G)
+{
+    // Reachability with Parallel Edges
+    if (!G->reachable("X", "Z"))
+    {
+        cout << "Error: Vertex \"Z\" should be reachable from \"X\" even with parallel edges." << endl;
+    }
+
+    // BFS with Parallel Edges
+    G->bfs("X");
+    if (G->get("Z") == nullptr || G->get("Z")->distance != 1)
+    {
+        cout << "Error: BFS should correctly compute distances with parallel edges." << endl;
+    }
+
+    // Edge Classification with Parallel Edges
+    if (G->edge_class("Z", "Y") != "tree edge")
+    { // Assuming your BFS from "Z" reaches "Y" first
+        cout << "Error: Edge classification with parallel edges needs to be consistent." << endl;
+    }
+}
+
+void additional_tests(Graph<string, string> *g1, Graph<string, string> *g2, Graph<string, string> *g3)
+{
+    cout << "Running additional tests for g1.txt (Disconnected Graph)" << endl;
+    test_disconnected_graph(g1);
+
+    cout << "Running additional tests for g2.txt (Graph with Self-loops)" << endl;
+    test_graph_with_self_loops(g2);
+
+    cout << "Running additional tests for g3.txt (Graph with Parallel Edges)" << endl;
+    test_graph_with_parallel_edges(g3);
+}
+
 int main()
 {
 
@@ -190,9 +269,23 @@ int main()
     test_edge_class(G);
     test_bfs_tree(G);
 
-    cout << "Testing completed" << endl;
+    delete G; // clean up
 
-    delete G;
+    // EXTRA TESTS CREATED FOR EDGE CASES
+
+    Graph<string, string> *g1 = generate_graph("g1.txt");
+    Graph<string, string> *g2 = generate_graph("g2.txt");
+    Graph<string, string> *g3 = generate_graph("g3.txt");
+
+    // main function that calls additional tests
+    additional_tests(g1, g2, g3);
+
+    // Clean up
+    delete g1;
+    delete g2;
+    delete g3;
+
+    cout << "Testing completed" << endl;
 
     return 0;
 }

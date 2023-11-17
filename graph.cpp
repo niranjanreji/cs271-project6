@@ -84,18 +84,6 @@ bool Graph<D, K>::reachable(K start, K end)
     return false;
 }
 
-template <class D, class K>
-bool Graph<D, K>::reachable(vertex* start, vertex* end) {
-    if (start == nullptr || end == nullptr) return false;
-    if (start == end) return true;
-    vertex* curr = end;
-    while (curr->pi != nullptr) {
-        curr = curr->pi;
-        if (curr == start) return true;
-    }
-    return false;
-}
-
 // PreCondtions: The graph object must be instantiated.
 // PostConditions: BFS traversal is done from start vertex
 // BFS tree is stored in tree stream.
@@ -203,32 +191,4 @@ void Graph<D, K>::bfs_tree(K start)
 {
     bfs(start);
     cout << tree.str();
-}
-
-template <class D, class K>
-void Graph<D, K>::dfs() {
-    for (int i = 0; i < size; i++) {
-        V[i]->color = true;
-        V[i]->pi = nullptr;
-    }
-    int time = 0;
-    for (int i = 0; i < size; i++) {
-        if (V[i]->color) dfs_visit(V[i], time);
-    }
-}
-
-template <class D, class K>
-void Graph<D, K>::dfs_visit(vertex* node, int time) {
-    time = time + 1;
-    node->distance = time;
-    node->color = false;
-    vertex** adjs = node->adj;
-    for (int i = 0; i < node->adjSize; i++) {
-        if (adjs[i]->color) {
-            adjs[i]->pi = node;
-            dfs_visit(adjs[i], time);
-        }
-    }
-    time = time + 1;
-    node->finish = time;
 }
