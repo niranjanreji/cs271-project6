@@ -160,7 +160,25 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
-    return "";
+    vertex* endVertex = get(end);
+    vertex* startVertex = get(start);
+    if (startVertex == nullptr || endVertex == nullptr) {
+        return "no edge";
+    }
+
+    bfs(start); // Run BFS from the start vertex
+
+    if (endVertex->distance > startVertex->distance) {
+        return "forward edge";
+    } else if (endVertex->pi == nullptr) {
+        return "no edge";
+    } else if (endVertex->distance < startVertex->distance) {
+        return "back edge";
+    } else if (endVertex->pi == startVertex) {
+        return "tree edge";
+    } else {
+        return "cross edge";
+    }
 }
 
 // PreConditions: Graph obj is insstantiated.
