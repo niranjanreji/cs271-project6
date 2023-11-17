@@ -42,5 +42,5 @@ public:
     string edge_class(K start, K end);                             // returns edge class
     void bfs_tree(K start);                                        // prints bfs tree
     void dfs();
-    void dfs_visit(vertex* node, int time);
+    int dfs_visit(vertex* node, int time);
 };

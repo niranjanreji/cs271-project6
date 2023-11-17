@@ -41,7 +41,7 @@ Graph<string, string> *generate_graph(string fname)
     return G;
 }
 
-void test_get(Graph<string, string> *G)
+void test_get(Graph<string, string> *G, Graph<string, string> *G2)
 {
     try
     {
@@ -53,6 +53,22 @@ void test_get(Graph<string, string> *G)
         {
             cout << "Incorrect result getting non-existant vertex \"a\"" << endl;
         }
+        if (G2->get("M") == nullptr)
+        {
+            cout << "BROKEN IN GET LINE 58" << endl;
+        }
+        if (G2->get("P") == nullptr)
+        {
+            cout << "BROKEN IN GET LINE 62" << endl;
+        }
+        if (G2->get("M")->key != "M")
+        {
+            cout << "BROKEN IN GET LINE 66" << endl;
+        }
+        if (G2->get("P")->key != "P") 
+        {
+            cout << "BROKEN IN GET LINE 70" << endl;
+        }
     }
     catch (exception &e)
     {
@@ -60,7 +76,7 @@ void test_get(Graph<string, string> *G)
     }
 }
 
-void test_reachable(Graph<string, string> *G)
+void test_reachable(Graph<string, string> *G, Graph<string, string> *G2)
 {
     try
     {
@@ -74,7 +90,19 @@ void test_reachable(Graph<string, string> *G)
         }
         if (G->reachable("S", "A"))
         {
-            cout << "Incorrectly identified non-existant vetex \"A\" as reachable from \"S\"" << endl;
+            cout << "Incorrectly identified non-existant vertex \"A\" as reachable from \"S\"" << endl;
+        }
+        if (!G->reachable("R","R"))
+        {
+            cout << "BROKEN IN REACHABLE LINE 97" << endl;
+        }
+        if (G2->reachable("M","P"))
+        {
+            cout << "BROKEN IN REACHABLE LINE 101" << endl;
+        }
+        if (G2->reachable("L", "Q"))
+        {
+            cout << "BROKEN IN REACHABLE LINE 105" << endl;
         }
     }
     catch (exception &e)
@@ -83,7 +111,7 @@ void test_reachable(Graph<string, string> *G)
     }
 }
 
-void test_bfs(Graph<string, string> *G)
+void test_bfs(Graph<string, string> *G, Graph<string, string> *G2, Graph<string, string> *G3)
 {
     try
     {
@@ -95,6 +123,26 @@ void test_bfs(Graph<string, string> *G)
             if (G->get(vertices[i]) == nullptr || G->get(vertices[i])->distance != distances[i])
             {
                 cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"t\"" << endl;
+            }
+        }
+
+        G2->bfs("X");
+        string verticess[2] = {"M", "P"};
+        int distancess[2] = {-1, -1};
+        for (int i = 0; i < 2; i++) {
+            if (G2->get(verticess[i]) == nullptr || G2->get(verticess[i])->distance != distancess[i] || G2->get(verticess[i])->pi != nullptr) 
+            {
+                cout << "BROKEN IN BFS LINE 135" << endl;
+            }
+        }
+
+        G3->bfs("Z");
+        string verticesss[3] = {"Z","X","Y"};
+        int distancesss[3] = {0,1,1};
+        for (int i = 0; i < 3; i++) {
+            if (G3->get(verticesss[i]) == nullptr || G3->get(verticesss[i])->distance != distancesss[i]) 
+            {
+                cout << "BROKEN IN BFS LINE 135" << endl;
             }
         }
     }
@@ -115,6 +163,24 @@ void test_print_path(Graph<string, string> *G)
         if (buffer.str() != "T -> S -> R -> V")
         {
             cout << "Incorrect path from vertex \"T\" to vertex \"V\". Expected: T -> S -> R -> V but got : " << buffer.str() << endl;
+        }
+
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G->print_path("S", "T");
+        cout.rdbuf(prevbuf2);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect path from vertex \"S\" to vertex \"T\". Expected:  but got : " << buffer.str() << endl;
+        }
+
+        stringstream buffer3;
+        streambuf *prevbuf3 = cout.rdbuf(buffer3.rdbuf());
+        G->print_path("R", "X");
+        cout.rdbuf(prevbuf3);
+        if (buffer3.str() != "")
+        {
+            cout << "Incorrect path from vertex \"T\" to vertex \"R\". Expected:  but got : " << buffer.str() << endl;
         }
     }
     catch (exception &e)
@@ -152,6 +218,11 @@ void test_edge_class(Graph<string, string> *G)
         {
             cout << "Misidentified cross edge (\"T\", \"S\") as : " << e_class << endl;
         }
+        e_class = G->edge_class("T", "R"); //  no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified cross edge (\"T\", \"R\") as : " << e_class << endl;
+        }
     }
     catch (exception &e)
     {
@@ -159,7 +230,7 @@ void test_edge_class(Graph<string, string> *G)
     }
 }
 
-void test_bfs_tree(Graph<string, string> *G)
+void test_bfs_tree(Graph<string, string> *G, Graph<string, string> *G2, Graph<string, string> *G3)
 {
     try
     {
@@ -171,6 +242,25 @@ void test_bfs_tree(Graph<string, string> *G)
         {
             cout << "Incorrect bfs tree. Expected : \nT\nS U W\nR Y X\nV \nbut got :\n"
                  << buffer.str() << endl;
+        }
+
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G2->bfs_tree("M");
+        cout.rdbuf(prevbuf2);
+        if (buffer2.str() != "M")
+        {
+            cout << "Incorrect bfs tree. Expected : \nM \nbut got :\n"
+                 << buffer2.str() << endl;
+        }
+
+        stringstream buffer3;
+        streambuf *prevbuf3 = cout.rdbuf(buffer3.rdbuf());
+        G3->bfs_tree("Z");
+        cout.rdbuf(prevbuf3);
+        if (buffer3.str() != "Z\nX Y")
+        {
+            cout << "Incorrect bfs tree. Expected : \nZ\nX Y \nbut got :\n" << buffer3.str() << endl;
         }
     }
     catch (exception &e)
@@ -258,20 +348,17 @@ int main()
 {
 
     Graph<string, string> *G = generate_graph("graph_description.txt");
-    test_get(G);
-    test_reachable(G);
-    test_bfs(G);
-    test_print_path(G);
-    test_edge_class(G);
-    test_bfs_tree(G);
-
-    delete G; // clean up
-
-    // EXTRA TESTS CREATED FOR EDGE CASES
-
     Graph<string, string> *g1 = generate_graph("g1.txt");
     Graph<string, string> *g2 = generate_graph("g2.txt");
     Graph<string, string> *g3 = generate_graph("g3.txt");
+    test_get(G, g2);
+    test_reachable(G, g2);
+    test_bfs(G, g2, g3);
+    test_print_path(G);
+    test_edge_class(G);
+    test_bfs_tree(G, g2, g3);
+
+    delete G; // clean up
 
     // main function that calls additional tests
     additional_tests(g1, g2, g3);
