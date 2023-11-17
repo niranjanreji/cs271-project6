@@ -13,7 +13,7 @@ using namespace std;
 // PostConditions:
 // Graph is constructed with vertices Key, and Data.
 template <class D, class K>
-Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
+Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K> > edges)
 {
     size = key.size();
     V = new vertex *[size];
@@ -108,21 +108,23 @@ void Graph<D, K>::bfs(K start)
         while (!q.empty())
         {
             vertex *now = q.dequeue();
-            
+
             if (now->distance == level + 1)
             {
-                tree << endl << now->key;
+                tree << endl
+                     << now->key;
                 level = level + 1;
             }
             else if (now->distance == level)
             {
-                if (root == now) {
+                if (root == now)
+                {
                     tree << now->key;
                 }
-                else {
+                else
+                {
                     tree << " " << now->key;
                 }
-                
             }
             vertex **adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++)
@@ -160,23 +162,33 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
-    vertex* endVertex = get(end);
-    vertex* startVertex = get(start);
-    if (startVertex == nullptr || endVertex == nullptr) {
+    vertex *endVertex = get(end);
+    vertex *startVertex = get(start);
+    if (startVertex == nullptr || endVertex == nullptr)
+    {
         return "no edge";
     }
 
     bfs(start); // Run BFS from the start vertex
 
-    if (endVertex->distance > startVertex->distance) {
+    if (endVertex->distance > startVertex->distance)
+    {
         return "forward edge";
-    } else if (endVertex->pi == nullptr) {
+    }
+    else if (endVertex->pi == nullptr)
+    {
         return "no edge";
-    } else if (endVertex->distance < startVertex->distance) {
+    }
+    else if (endVertex->distance < startVertex->distance)
+    {
         return "back edge";
-    } else if (endVertex->pi == startVertex) {
+    }
+    else if (endVertex->pi == startVertex)
+    {
         return "tree edge";
-    } else {
+    }
+    else
+    {
         return "cross edge";
     }
 }
