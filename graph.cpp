@@ -84,7 +84,7 @@ void Graph<D, K>::bfs(K start)
     if (root != nullptr)
     {
         int level = 0;
-        tree << root->key;
+        cout << "our tree string is first " << tree.str() << endl;
         root->distance = 0;
         root->color = false;
         queue<vertex *> q(size);
@@ -92,18 +92,26 @@ void Graph<D, K>::bfs(K start)
         while (!q.empty())
         {
             vertex *now = q.dequeue();
-
+            
             if (now->distance == level + 1)
             {
                 tree << endl
                      << now->key;
                 level = level + 1;
+                //cout << "level is now " << level << endl;
             }
-            else if (root != now && now->distance == level)
+            else if (now->distance == level)
             {
-                tree << " " << now->key;
+                if (root == now) {
+                    tree << now->key;
+                }
+                else {
+                    //tree << " " << now->key;
+                }
+                
             }
-
+            cout << now->key << " at level " << level << " with distance " << now->distance << endl; 
+            //cout << "we are at " << now->key << " and tree became " << tree.str() << endl;
             vertex **adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++)
             {
@@ -136,7 +144,32 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
-    return "";
+    if (get(start) == nullptr || get(end) == nullptr) {
+        return "no edge";
+    }
+
+    bfs(start); // Run BFS from the start vertex
+
+    vertex* endVertex = get(end);
+    vertex* startVertex = get(start);
+
+    if (endVertex->pi == startVertex) {
+        return "tree edge"; // If end's predecessor is start, it's a tree edge
+    }
+
+    // Check if there's a path from start to end and vice versa
+    bool pathFromStartToEnd = reachable(start, end);
+    bool pathFromEndToStart = reachable(end, start);
+
+    if (pathFromStartToEnd && !pathFromEndToStart) {
+        return "forward edge";
+    } else if (!pathFromStartToEnd && pathFromEndToStart) {
+        return "back edge";
+    } else if (pathFromStartToEnd && pathFromEndToStart) {
+        return "cross edge";
+    }
+
+    return "no edge"; // If none of the above, there's no edge
 }
 
 template <class D, class K>
