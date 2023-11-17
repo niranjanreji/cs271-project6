@@ -9,6 +9,14 @@ using namespace std;
 template <class D, class K>
 Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
 {
+
+    // preConditions:
+    // Key and Data should have same size.
+    // All virtices in the graph should have unique keys.
+
+    // PostConditions:
+    // Graph is constructed with vertices Key, and Data.
+
     size = key.size();
     V = new vertex *[size];
     keys = new K[size];
@@ -22,8 +30,7 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
         V[i] = curr;
         keys[i] = curr->key;
     }
-
-    for (int i = 0; i < size; i++)
+    git for (int i = 0; i < size; i++)
     {
         vertex *curr = V[i];
         int adjSize = curr->adjSize;
@@ -39,6 +46,8 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
 template <class D, class K>
 Graph<D, K>::~Graph()
 {
+    // PreCondition: Should have something to delete
+    // Post Condition: All dynamically allocated memory using new is freed.
     for (int i = 0; i < size; i++)
     {
         delete V[i];
@@ -49,6 +58,11 @@ Graph<D, K>::~Graph()
 template <class D, class K>
 typename Graph<D, K>::vertex *Graph<D, K>::get(K key)
 {
+    // PreCondition: The graph object must be instantiated.
+    // PostConditions:
+    // If a vertex with key is found, pointer to that vertix is returned.
+    // returns nullptr if not found
+
     for (int i = 0; i < size; i++)
     {
         if (keys[i] == key)
@@ -60,6 +74,9 @@ typename Graph<D, K>::vertex *Graph<D, K>::get(K key)
 template <class D, class K>
 bool Graph<D, K>::reachable(K start, K end)
 {
+    // PreCondition: We need a graph object to check if vertices are recheable
+    //  PostCondition: Return true if path is found from start to end vertex, else false.
+
     if (start == end)
         return true;
     bfs(start);
@@ -74,6 +91,9 @@ bool Graph<D, K>::reachable(K start, K end)
 template <class D, class K>
 void Graph<D, K>::bfs(K start)
 {
+    // PreCondtions: The graph object must be instantiated.
+    //  PostConditions: BFS traversal is done from start vertex
+    //  BFS tree is stored in tree stream.
     for (int i = 0; i < size; i++)
     {
         V[i]->color = true;
@@ -92,6 +112,26 @@ void Graph<D, K>::bfs(K start)
         while (!q.empty())
         {
             vertex *now = q.dequeue();
+            
+            if (now->distance == level + 1)
+            {
+                tree << endl
+                     << now->key;
+                level = level + 1;
+                //cout << "level is now " << level << endl;
+            }
+            else if (now->distance == level)
+            {
+                if (root == now) {
+                    tree << now->key;
+                }
+                else {
+                    //tree << " " << now->key;
+                }
+                
+            }
+            cout << now->key << " at level " << level << " with distance " << now->distance << endl; 
+            //cout << "we are at " << now->key << " and tree became " << tree.str() << endl;
             vertex **adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++)
             {
@@ -126,6 +166,8 @@ void Graph<D, K>::bfs(K start)
 template <class D, class K>
 void Graph<D, K>::print_path(K start, K end, bool first)
 {
+    // PreCondition: The graph obj needs to exist
+    // PostCondition: Prints the path from the start vertex to the end vertex using BFS traversal.
     if (first)
         bfs(start);
     if (start == end)
@@ -140,37 +182,16 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
-    if (get(start) == nullptr || get(end) == nullptr) {
-        return "no edge";
-    }
-
-    bfs(start); // Run BFS from the start vertex
-
-    vertex* endVertex = get(end);
-    vertex* startVertex = get(start);
-
-    if (endVertex->pi == startVertex) {
-        return "tree edge"; // If end's predecessor is start, it's a tree edge
-    }
-
-    // Check if there's a path from start to end and vice versa
-    bool pathFromStartToEnd = reachable(start, end);
-    bool pathFromEndToStart = reachable(end, start);
-
-    if (pathFromStartToEnd && !pathFromEndToStart) {
-        return "forward edge";
-    } else if (!pathFromStartToEnd && pathFromEndToStart) {
-        return "back edge";
-    } else if (pathFromStartToEnd && pathFromEndToStart) {
-        return "cross edge";
-    }
-
-    return "no edge"; // If none of the above, there's no edge
+    // PreConditions: The graph exists and the vertices with keys start and end also exist.
+    // PostConditions: Returns a string representating the classification of the edge from start to end.
+    return "";
 }
 
 template <class D, class K>
 void Graph<D, K>::bfs_tree(K start)
 {
+    // PreConditions: Graph obj is insstantiated.
+    // PostCondition: Prints the BFS tree rep. of the graph.
     bfs(start);
     cout << tree.str();
 }
