@@ -211,16 +211,17 @@ void test_graph_with_self_loops(Graph<string, string> *G)
 
     // BFS with Self-loops
     G->bfs("M");
-    if (G->get("M") != nullptr && G->get("M")->distance != 0)
+    if (G->get("M")->pi != nullptr && G->get("M")->distance != 0)
     {
         cout << "Error: BFS should handle self-loops correctly." << endl;
     }
 
     // Edge Classification with Self-loops
     string edgeType = G->edge_class("P", "P");
-    if (edgeType != "forward edge" && edgeType != "self-loop")
-    { // Depending on how you handle self-loops
+    if (edgeType != "back edge")
+    {
         cout << "Error: Self-loop on \"P\" should be classified correctly." << endl;
+        cout << edgeType << endl;
     }
 }
 
@@ -240,21 +241,16 @@ void test_graph_with_parallel_edges(Graph<string, string> *G)
     }
 
     // Edge Classification with Parallel Edges
-    if (G->edge_class("Z", "Y") != "tree edge")
-    { // Assuming your BFS from "Z" reaches "Y" first
+    if (G->edge_class("Z", "Y") != "back edge")
+    {
         cout << "Error: Edge classification with parallel edges needs to be consistent." << endl;
     }
 }
 
 void additional_tests(Graph<string, string> *g1, Graph<string, string> *g2, Graph<string, string> *g3)
 {
-    cout << "Running additional tests for g1.txt (Disconnected Graph)" << endl;
     test_disconnected_graph(g1);
-
-    cout << "Running additional tests for g2.txt (Graph with Self-loops)" << endl;
     test_graph_with_self_loops(g2);
-
-    cout << "Running additional tests for g3.txt (Graph with Parallel Edges)" << endl;
     test_graph_with_parallel_edges(g3);
 }
 

@@ -18,7 +18,6 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
     size = key.size();
     V = new vertex *[size];
     keys = new K[size];
-
     for (int i = 0; i < size; i++)
     {
         K currKey = key[i];
@@ -73,15 +72,12 @@ typename Graph<D, K>::vertex *Graph<D, K>::get(K key)
 template <class D, class K>
 bool Graph<D, K>::reachable(K start, K end)
 {
-    if (start == end)
-        return true;
+    vertex* s = get(start);
+    vertex* e = get(end);
+    if (s == nullptr || e == nullptr) return false;
+    if (start == end) return true;
     bfs(start);
-    vertex *temp = get(end);
-    if (temp != nullptr)
-    {
-        return (temp->pi != nullptr);
-    }
-    return false;
+    return (e->pi != nullptr);
 }
 
 template <class D, class K>
@@ -181,8 +177,8 @@ string Graph<D, K>::edge_class(K start, K end)
 
     if (u == nullptr || v == nullptr) return "no edge";
     if (v->pi == u) return "tree edge";
+    if (reachable(v, u)) return "back edge";
     if (reachable(u, v)) return "forward edge";
-    if (u->pi != v && reachable(v, u)) return "back edge";
     for (int i = 0; i < u->adjSize; i++) {
         if (u->adj[i] == v) {
             for (int j = 0; j < v->adjSize; j++) {
