@@ -31,7 +31,6 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
         for (int j = 0; j < adjSize; j++)
         {
             adjacent[j] = get(edges[i][j]);
-            cout << keys[i] << " has this next to it: " << edges[i][j] << endl;
         }
         curr->adj = adjacent;
     }

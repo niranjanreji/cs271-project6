@@ -15,30 +15,23 @@ Graph<string, string>* generate_graph(string fname){
     vector<string> keys = {};
     vector<string> data = {};
     vector<vector<string>> adjs = {};
-    cout << "starting" << endl;
     if(infile.is_open()){
         while(getline(infile, line)){
             size_t delim = line.find(":");
             string key = line.substr(0, delim);
             string adj = line.substr(delim+1);
-            cout << line << endl;
             keys.push_back(key);
             data.push_back(key + " data");
             delim = adj.find(",");
-            cout << delim << endl;
             vector<string> adj_lst = {};
-            cout << line << endl;
             while(delim != string::npos){
-                //cout << delim << " and " << adj << endl;
                 adj_lst.push_back(adj.substr(0, delim));
                 adj = adj.substr(delim+1);
                 delim = adj.find(",");
             }
-            cout << line << endl;
             adj_lst.push_back(adj);
             adjs.push_back(adj_lst);
         }
-    cout << "made it out the hood" << endl;
     }
     Graph<string,string>* G = new Graph<string, string>(keys, data, adjs);
     return G;
