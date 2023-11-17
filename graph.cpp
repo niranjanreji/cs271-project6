@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// preConditions:
+// PreConditions:
 // Key and Data should have same size.
 // All virtices in the graph should have unique keys.
 
