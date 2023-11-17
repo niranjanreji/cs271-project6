@@ -8,7 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "graph.cpp"
-/*
+
 Graph<string, string>* generate_graph(string fname){
     string line;
     ifstream infile(fname);
@@ -18,7 +18,7 @@ Graph<string, string>* generate_graph(string fname){
     cout << "starting" << endl;
     if(infile.is_open()){
         while(getline(infile, line)){
-            unsigned long delim = line.find(":");
+            size_t delim = line.find(":");
             string key = line.substr(0, delim);
             string adj = line.substr(delim+1);
             cout << line << endl;
@@ -43,7 +43,7 @@ Graph<string, string>* generate_graph(string fname){
     Graph<string,string>* G = new Graph<string, string>(keys, data, adjs);
     return G;
 }
-*/
+
 void test_get(Graph<string,string>* G) {
     try {
         if(G->get("S")==nullptr || G->get("S")->data != "S data") {
@@ -148,8 +148,7 @@ void test_bfs_tree(Graph<string,string>* G) {
 int main() {
 
     cout << "0" << endl;
-    //Graph<string,string>* G = generate_graph("graph_description.txt");
-    Graph<string, string>* G = new Graph<string, string>({"R","V","S","T","U","W","X","Y"}, {"R data","V data","S data","T data","U data","W data","X data","Y data"}, {{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}});
+    Graph<string,string>* G = generate_graph("graph_description.txt");
     cout << "1" << endl;
     test_get(G);
     cout << "2" << endl;

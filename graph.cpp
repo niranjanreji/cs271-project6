@@ -31,6 +31,7 @@ Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
         for (int j = 0; j < adjSize; j++)
         {
             adjacent[j] = get(edges[i][j]);
+            cout << keys[i] << " has this next to it: " << edges[i][j] << endl;
         }
         curr->adj = adjacent;
     }
@@ -42,8 +43,8 @@ Graph<D, K>::~Graph()
     for (int i = 0; i < size; i++)
     {
         delete V[i];
-        delete[] keys;
     }
+    delete[] keys;
 }
 
 template <class D, class K>
@@ -112,6 +113,7 @@ void Graph<D, K>::bfs(K start)
                     adjs[i]->color = false;
                     adjs[i]->distance = now->distance + 1;
                     adjs[i]->pi = now;
+                    q.enqueue(adjs[i]);
                 }
             }
         }

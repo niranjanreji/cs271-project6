@@ -1,6 +1,7 @@
 #pragma once
 
 #include "queue.h"
+#include <sstream>
 
 using namespace std;
 
@@ -35,4 +36,24 @@ T queue<T>::dequeue() {
         return temp;
     }
     return T();
+}
+
+template <class T>
+string queue<T>::printq() {
+    stringstream out;
+    if (tail < head) {
+        for (int i = head; i < size + 1; i++) {
+            out << q[i] << " ";
+        }
+        for (int i = 0; i < tail; i++) {
+            out << q[i] << " ";
+        }
+    }
+    else {
+        for (int i = head; i < tail; i++) {
+            out << q[i] << " ";
+        }
+    }
+    out << endl;
+    return out.str();
 }

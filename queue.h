@@ -12,4 +12,5 @@ class queue {
         bool empty();
         void enqueue(T x);
         T dequeue();
+        string printq();
 };
