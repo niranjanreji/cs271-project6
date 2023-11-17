@@ -13,7 +13,7 @@ using namespace std;
 // PostConditions:
 // Graph is constructed with vertices Key, and Data.
 template <class D, class K>
-Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K> > edges)
+Graph<D, K>::Graph(vector<K> key, vector<D> data, vector<vector<K>> edges)
 {
     size = key.size();
     V = new vertex *[size];
@@ -120,23 +120,21 @@ void Graph<D, K>::bfs(K start)
         while (!q.empty())
         {
             vertex *now = q.dequeue();
-
+            
             if (now->distance == level + 1)
             {
-                tree << endl
-                     << now->key;
+                tree << endl << now->key;
                 level = level + 1;
             }
             else if (now->distance == level)
             {
-                if (root == now)
-                {
+                if (root == now) {
                     tree << now->key;
                 }
-                else
-                {
+                else {
                     tree << " " << now->key;
                 }
+                
             }
             vertex **adjs = now->adj;
             for (int i = 0; i < now->adjSize; i++)
@@ -174,53 +172,28 @@ void Graph<D, K>::print_path(K start, K end, bool first)
 template <class D, class K>
 string Graph<D, K>::edge_class(K start, K end)
 {
-<<<<<<< Updated upstream
-    vertex *endVertex = get(end);
-    vertex *startVertex = get(start);
-    if (startVertex == nullptr || endVertex == nullptr)
-    {
-        return "no edge";
-    }
-=======
     // Perform DFS
     dfs();
->>>>>>> Stashed changes
 
     // Retrieve vertices based on keys
     vertex* u = get(start);
     vertex* v = get(end);
-    cout << "start is " << u->key << " and end is " << v->key << endl;
-    cout << "end is at d " << v->distance << ", start is at d " << u->distance << endl;
 
-<<<<<<< Updated upstream
-    if (endVertex->distance > startVertex->distance)
-    {
-        return "forward edge";
-    }
-    else if (endVertex->pi == nullptr)
-    {
-        return "no edge";
-    }
-    else if (endVertex->distance < startVertex->distance)
-    {
-        return "back edge";
-    }
-    else if (endVertex->pi == startVertex)
-    {
-        return "tree edge";
-    }
-    else
-    {
-        return "cross edge";
-    }
-=======
     if (u == nullptr || v == nullptr) return "no edge";
     if (v->pi == u) return "tree edge";
     if (reachable(u, v)) return "forward edge";
-    if (reachable(v, u)) return "back edge";
-    if (!reachable(v, u) && reachable(u, v)) return "cross edge";
+    if (u->pi != v && reachable(v, u)) return "back edge";
+    for (int i = 0; i < u->adjSize; i++) {
+        if (u->adj[i] == v) {
+            for (int j = 0; j < v->adjSize; j++) {
+                if (v->adj[j] == v) {
+                    return "no edge";
+                }
+            }
+            return "cross edge";
+        }
+    }
     return "no edge";
->>>>>>> Stashed changes
 }
 
 // PreConditions: Graph obj is insstantiated.
